@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float movementSpeed = 5f;
-
+    public float mass = 1f;
 
     public Animator playerAnim;
+
+    public Rigidbody rb;
 
     CharacterController controller;
     Vector3 velocity;
@@ -23,21 +25,44 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.forward * movementSpeed * Time.deltaTime;
+        //controller.Move(Vector3.forward * movementSpeed * Time.deltaTime);
+        //transform.position += transform.forward * movementSpeed * Time.deltaTime;
+
 
         UpdateMovement();
+        //UpdateGravity();
+    }
+
+    void UpdateGravity()
+    {
+        var gravity = Physics.gravity * mass * Time.deltaTime;
+        velocity.y = controller.isGrounded ? -1f : velocity.y * gravity.y;
     }
 
     void UpdateMovement()
     {
-        if (DDR.Pad.Left == true)
+        if (Input.GetKey(KeyCode.W) || DDR.Pad.Center)
         {
-            transform.position += Vector3.left * movementSpeed * Time.deltaTime;
+            controller.Move(Vector3.forward * movementSpeed * Time.deltaTime);
         }
 
-        if (DDR.Pad.Right == true)
+        if (Input.GetKey(KeyCode.A) || DDR.Pad.Left == true)
         {
-            transform.position += Vector3.right * movementSpeed * Time.deltaTime;
+            controller.Move (Vector3.left * movementSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.D) || DDR.Pad.Right == true)
+        {
+            controller.Move(Vector3.right * movementSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) || DDR.Pad.Up == true)
+        {
+            playerAnim.SetBool("isSliding", true);
+        }
+        else
+        {
+            playerAnim.SetBool("isSliding", false);
         }
     }
 

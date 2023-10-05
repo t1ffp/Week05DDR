@@ -360,6 +360,7 @@
 -analyzer:"/Applications/Unity/Hub/Editor/2022.3.8f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/DDR/Scripts/DDR.cs"
 "Assets/DDR/Scripts/DDRInput.cs"
+"Assets/Scripts/DetectCollision.cs"
 "Assets/Scripts/PlayerController.cs"
 -langversion:9.0
 
